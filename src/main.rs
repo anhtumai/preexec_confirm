@@ -11,6 +11,8 @@ use colored::Colorize;
 
 use serde::{Deserialize, Serialize};
 
+const SKIP_CONFIRM_VAR_CHAR: &str = "SKIP_CONFIRM";
+
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 struct Rule {
     contain: String,
@@ -45,6 +47,15 @@ fn verify() {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    match env::var(SKIP_CONFIRM_VAR_CHAR) {
+        Ok(v) => {
+            if v == "true" {
+                return Ok(());
+            }
+        }
+        Err(_) => (),
+    }
+
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
         return Ok(());
