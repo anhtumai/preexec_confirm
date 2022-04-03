@@ -58,3 +58,7 @@ autoload -Uz add-zsh-hook
 
 add-zsh-hook preexec preexec_confirm
 ```
+
+## Uninstallation
+
+Remove the above lines in `.zshrc` and run `rm /usr/local/bin/confirm`
