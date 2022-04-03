@@ -30,13 +30,13 @@ Export env var `SKIP_CONFIRM=true` if you want to temporarily ignore the middlew
 ### 1. Build from source
 
 ```bash
-$> git clone git@github.com:anhtumai/confirm.git
-$> cargo build --release
-$> cp target/release/confirm /usr/local/bin
+git clone git@github.com:anhtumai/confirm.git
+cargo build --release
+cp target/release/confirm /usr/local/bin
 
 ## Ensure system can recognise confirm binary
-$> which confirm
-/usr/local/bin/confirm
+which confirm
+## /usr/local/bin/confirm
 ```
 
 ### 2. Create a YAML config file with the following format
