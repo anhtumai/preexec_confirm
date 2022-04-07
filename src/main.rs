@@ -1,17 +1,13 @@
-use std::io;
-use std::io::Write;
-
+use std::io::{stdin, stdout, Write};
 use std::env;
-use std::io::stdin;
 
-use rand::distributions::Alphanumeric;
-use rand::{thread_rng, Rng};
-
-use colored::Colorize;
+use rand::{distributions::Alphanumeric, thread_rng, Rng};
 
 use serde::{Deserialize, Serialize};
 
 use regex::Regex;
+
+use colored::Colorize;
 
 const SKIP_CONFIRM_VAR_CHAR: &str = "SKIP_CONFIRM";
 
@@ -66,7 +62,7 @@ fn verify() {
             "Press Ctrl-C to cancel or type {} to continue: ",
             rand_string.red()
         );
-        io::stdout().flush().unwrap();
+        stdout().flush().unwrap();
         let mut user_input = String::new();
         stdin()
             .read_line(&mut user_input)
