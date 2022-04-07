@@ -44,7 +44,12 @@ which confirm
 ```YAML
 - contain: string
   description (optional): string
+  regex (optional): bool
 ```
+
+- contain: text/regex pattern to search in the command, depending on `regex` option
+- description: explains why the rule is needed
+- regex: if set to `true`, `contain` will be treated as a regex pattern
 
 ### 3. Ensure these lines exist in your `.zshrc` with correct order
 

@@ -11,16 +11,48 @@ use colored::Colorize;
 
 use serde::{Deserialize, Serialize};
 
+use regex::Regex;
+
 const SKIP_CONFIRM_VAR_CHAR: &str = "SKIP_CONFIRM";
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 struct Rule {
     contain: String,
     description: Option<String>,
+    regex: Option<bool>,
 }
 
 fn get_violated_rule<'a>(rules: &'a Vec<Rule>, command: &String) -> Option<&'a Rule> {
-    rules.iter().find(|rule| command.contains(&rule.contain))
+    rules.iter().find(|rule| {
+        if rule.regex == Some(true) {
+            match Regex::new(&rule.contain) {
+                Ok(re) => re.is_match(&command),
+                Err(_) => false,
+            }
+        } else {
+            command.contains(&rule.contain)
+        }
+    })
+}
+
+fn print_rule(&rule: &&Rule) {
+    let contain_type = if rule.regex == Some(true) {
+        "regex pattern"
+    } else {
+        "text"
+    };
+    println!(
+        "Your command contains {} {}",
+        contain_type,
+        rule.contain.yellow().underline()
+    );
+
+    match &(rule.description) {
+        Some(description) => {
+            println!("{}: {}", format!("Description").green(), description);
+        }
+        None => (),
+    };
 }
 
 fn verify() {
@@ -70,17 +102,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let violated_rule_option = get_violated_rule(&rules, &command);
     match violated_rule_option {
         Some(violated_rule) => {
-            println!(
-                "Your command contains text {}",
-                violated_rule.contain.yellow().underline()
-            );
-            match &(violated_rule.description) {
-                Some(description) => {
-                    println!("{}: {}", format!("Description").green(), description);
-                }
-                None => (),
-            };
-            verify()
+            print_rule(&violated_rule);
+            verify();
         }
         None => (),
     }
