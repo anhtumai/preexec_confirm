@@ -1,37 +1,16 @@
-use std::io::{stdin, stdout, Write};
 use std::env;
-
-use rand::{distributions::Alphanumeric, thread_rng, Rng};
-
-use serde::{Deserialize, Serialize};
-
-use regex::Regex;
+use std::error::Error;
+use std::fs::File;
+use std::io::{stdin, stdout, Write};
 
 use colored::Colorize;
+use rand::{distributions::Alphanumeric, thread_rng, Rng};
+
+use confirm::{get_violated_rule, Rule};
 
 const SKIP_CONFIRM_VAR_CHAR: &str = "SKIP_CONFIRM";
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
-struct Rule {
-    contain: String,
-    description: Option<String>,
-    regex: Option<bool>,
-}
-
-fn get_violated_rule<'a>(rules: &'a Vec<Rule>, command: &String) -> Option<&'a Rule> {
-    rules.iter().find(|rule| {
-        if rule.regex == Some(true) {
-            match Regex::new(&rule.contain) {
-                Ok(re) => re.is_match(&command),
-                Err(_) => false,
-            }
-        } else {
-            command.contains(&rule.contain)
-        }
-    })
-}
-
-fn print_rule(&rule: &&Rule) {
+fn print_rule(rule: &Rule) {
     let contain_type = if rule.regex == Some(true) {
         "regex pattern"
     } else {
@@ -74,7 +53,7 @@ fn verify() {
     }
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<(), Box<dyn Error>> {
     match env::var(SKIP_CONFIRM_VAR_CHAR) {
         Ok(v) => {
             if v == "true" {
@@ -92,13 +71,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config_path = args.get(1).unwrap().to_owned();
     let command = args.get(2).unwrap().to_owned();
 
-    let file = std::fs::File::open(config_path)?;
+    let file = File::open(config_path)?;
     let rules: Vec<Rule> = serde_yaml::from_reader(file)?;
 
     let violated_rule_option = get_violated_rule(&rules, &command);
     match violated_rule_option {
         Some(violated_rule) => {
-            print_rule(&violated_rule);
+            print_rule(violated_rule);
             verify();
         }
         None => (),
