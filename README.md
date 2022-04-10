@@ -30,13 +30,11 @@ Export env var `SKIP_CONFIRM=true` if you want to temporarily ignore the middlew
 ### 1. Build from source
 
 ```bash
-git clone git@github.com:anhtumai/confirm.git
-cargo build --release
-cp target/release/confirm /usr/local/bin
+cargo install preexec_confirm
 
-## Ensure system can recognise confirm binary
-which confirm
-## /usr/local/bin/confirm
+# ensure the system recognizes preexec_confirm path
+which preexec_confirm
+## ~/.cargo/bin/preexec_confirm
 ```
 
 ### 2. Create a YAML config file with the following format
@@ -55,7 +53,7 @@ which confirm
 
 ```zshrc
 function preexec_confirm_hook() {
-    CONFIG_PATH="/home/anhtumai/.config/confirm/config.yml" //change this
+    CONFIG_PATH="/home/anhtumai/.config/confirm/config.yml" #change this
     preexec_confirm $CONFIG_PATH $1
 }
 
@@ -66,4 +64,5 @@ add-zsh-hook preexec preexec_confirm_hook
 
 ## Uninstallation
 
-Remove the above lines in `.zshrc` and run `rm /usr/local/bin/confirm`
+- Run `cargo uninstall preexec_confirm`
+- Remove these configured lines above in `.zshrc`
