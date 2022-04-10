@@ -1,14 +1,15 @@
 [package]
 name = "preexec_confirm"
-version = "0.1.0"
-authors = ["Tu Mai tu.mai@outlook.com"]
-license = "MIT License"
+version = "0.1.1"
+authors = ["Tu Mai <tu.mai@outlook.com>"]
+license = "MIT"
 edition = "2021"
 readme = "README.md"
+description = "A zsh `middleware` forcing users to confirm before executing commands with preconfigured texts/regex patterns"
 homepage = "https://github.com/anhtumai/preexec_confirm"
 repository = "https://github.com/anhtumai/preexec_confirm"
-keywords = ["zsh hook", "preexec", "confirm"]
-categories = ["zsh-preexec-hook"]
+keywords = ["zsh-hook", "preexec", "confirm"]
+categories = ["command-line-utilities"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -16,5 +17,5 @@ categories = ["zsh-preexec-hook"]
 serde = { version = "1.0", features = ["derive"] }
 serde_yaml = "0.8"
 colored = "2"
-rand = "*"
+rand = "0.8"
 regex = "1"

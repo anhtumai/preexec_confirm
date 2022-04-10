@@ -1,14 +1,14 @@
-# Confirm
+# Preexec Confirm
 
 ```
 A zsh `middleware` forcing user to confirm before executing commands
-with selected keywords.
+with preconfigured texts/regex patterns.
 ```
 
 ## Demo
 
-Users can define a YAML config file, specifying keywords of dangerous commands
-that they don't want to execute by accident.
+Users can define a YAML config file, specifying keywords or regex patterns
+of dangerous commands that they don't want to execute by accident.
 For example, `serverless deploy --stage prod-environment`
 
 When the middleware detects a dangerous command,
