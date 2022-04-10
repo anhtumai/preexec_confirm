@@ -6,7 +6,7 @@ use std::io::{stdin, stdout, Write};
 use colored::Colorize;
 use rand::{distributions::Alphanumeric, thread_rng, Rng};
 
-use confirm::{get_violated_rule, Rule};
+use preexec_confirm::{get_violated_rule, Rule};
 
 const SKIP_CONFIRM_VAR_CHAR: &str = "SKIP_CONFIRM";
 

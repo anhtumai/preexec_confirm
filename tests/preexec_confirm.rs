@@ -1,4 +1,4 @@
-use confirm::{get_violated_rule, Rule};
+use preexec_confirm::{get_violated_rule, Rule};
 
 #[test]
 fn test_rules_with_no_regex() {

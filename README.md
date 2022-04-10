@@ -54,14 +54,14 @@ which confirm
 ### 3. Ensure these lines exist in your `.zshrc` with correct order
 
 ```zshrc
-function preexec_confirm() {
+function preexec_confirm_hook() {
     CONFIG_PATH="/home/anhtumai/.config/confirm/config.yml" //change this
-    confirm $CONFIG_PATH $1
+    preexec_confirm $CONFIG_PATH $1
 }
 
 autoload -Uz add-zsh-hook
 
-add-zsh-hook preexec preexec_confirm
+add-zsh-hook preexec preexec_confirm_hook
 ```
 
 ## Uninstallation
